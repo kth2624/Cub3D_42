@@ -12,7 +12,7 @@ RM = rm -f
 
 CFLAG = -Wall -Wextra -Werror
 
-MLX =  -L./mlx -lmlx -framework OpenGL -framework AppKit
+MLX =  -L${MLX_DIR} -lmlx -framework OpenGL -framework AppKit
 
 ${NAME}: ${SRCS_OBJS}
 	make -C ${MLX_DIR}
