@@ -1,5 +1,4 @@
 #include "mlx/mlx.h"
-#include "key_macos.h"
 #include <math.h>
 #include <string.h>
 #include <stdio.h>
@@ -12,6 +11,16 @@
 #define mapHeight 24
 #define width 1920
 #define height 1080
+//keyboard
+# define K_A 0
+# define K_D 2
+# define K_S 1
+# define K_W 13
+# define K_AR_L 123
+# define K_AR_R 124
+# define K_ESC 53
+
+
 
 typedef struct s_img
 {
@@ -230,13 +239,10 @@ void draw(t_info *info)
 	mlx_put_image_to_window(info->mlx, info->win, info->img.img, 0, 0);
 }
 
-
-
 int	main_loop(t_info *info)
 {
 	calc(info);
 	draw(info);
-	// mlx_put_image_to_window(info->mlx, info->w
 	return (0);
 }
 
@@ -261,6 +267,22 @@ int	key_press(int key, t_info *info)
 			info->posX -= info->dirX * info->moveSpeed;
 		if (!worldMap[(int)(info->posX)][(int)(info->posY - info->dirY * info->moveSpeed)])
 			info->posY -= info->dirY * info->moveSpeed;
+	}
+	//move right
+	if (key == K_D)
+	{
+		if (!worldMap[(int)(info->posX + info->dirY * info->moveSpeed)][(int)(info->posY)])
+			info->posX += info->dirY * info->moveSpeed;
+		if (!worldMap[(int)(info->posX)][(int)(info->posY - info->dirX * info->moveSpeed)])
+			info->posY -= info->dirX * info->moveSpeed;
+	}
+	//move left
+	if (key == K_A)
+	{
+		if (!worldMap[(int)(info->posX - info->dirY * info->moveSpeed)][(int)(info->posY)])
+			info->posX -= info->dirY * info->moveSpeed;
+		if (!worldMap[(int)(info->posX)][(int)(info->posY + info->dirX * info->moveSpeed)])
+			info->posY += info->dirX * info->moveSpeed;
 	}
 	//rotate to the right
 	if (key == K_AR_R)
