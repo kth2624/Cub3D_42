@@ -1,6 +1,6 @@
 NAME = cub3d
 
-SRCS_FILES = main.c
+SRCS_FILES = main.c raycast.c keyControl.c
 
 SRCS_OBJS = ${SRCS_FILES:.c=.o}
 
