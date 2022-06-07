@@ -11,8 +11,8 @@
 #define texHeight 64
 #define mapWidth 24
 #define mapHeight 24
-#define width 1920
-#define height 1080
+#define width 720
+#define height 640
 # define K_A 0
 # define K_D 2
 # define K_S 1

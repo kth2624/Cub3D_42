@@ -65,14 +65,10 @@ void load_texture(t_info *info)
 {
 	t_img img;
 
-	load_image(info, info->texture[0], "textures/eagle.xpm", &img);
-	load_image(info, info->texture[1], "textures/redbrick.xpm", &img);
-	load_image(info, info->texture[2], "textures/purplestone.xpm", &img);
-	load_image(info, info->texture[3], "textures/greystone.xpm", &img);
-	load_image(info, info->texture[4], "textures/bluestone.xpm", &img);
-	load_image(info, info->texture[5], "textures/mossy.xpm", &img);
-	load_image(info, info->texture[6], "textures/wood.xpm", &img);
-	load_image(info, info->texture[7], "textures/colorstone.xpm", &img);
+	load_image(info, info->texture[0], "textures/NO.xpm", &img);//북
+	load_image(info, info->texture[1], "textures/SO.xpm", &img);//남
+	load_image(info, info->texture[2], "textures/EA.xpm", &img);//서
+	load_image(info, info->texture[3], "textures/WE.xpm", &img);//동
 }
 
 int	main(void)
@@ -80,14 +76,14 @@ int	main(void)
 	t_info info;
 	info.mlx = mlx_init();
 
-	info.posX = 22.0;
-	info.posY = 11.5;
+	info.posX = 3.0;
+	info.posY = 3.0;
 	info.dirX = -1.0;
 	info.dirY = 0.0;
 	info.planeX = 0.0;
 	info.planeY = 0.66;
-	info.moveSpeed = 0.05;
-	info.rotSpeed = 0.05;
+	info.moveSpeed = 0.5;
+	info.rotSpeed = 0.1;
 	info.buf = (int **)malloc(sizeof(int *) * height);
 
 	for (int i = 0; i < height; i++)
@@ -103,15 +99,15 @@ int	main(void)
 		}
 	}
 	
-	if(!(info.texture = (int **)malloc(sizeof(int *) * 8)))
+	if(!(info.texture = (int **)malloc(sizeof(int *) * 4)))
 		return -1;
-	for(int i = 0; i < 8; i++)
+	for(int i = 0; i < 4; i++)
 	{
 		if(!(info.texture[i] = (int *)malloc(sizeof(int) * (texHeight * texWidth))))
 			return -1;
 	}
 	
-	for(int i = 0; i < 8; i++)
+	for(int i = 0; i < 4; i++)
 	{
 		for(int j = 0; j < texHeight * texWidth; j++)
 		{

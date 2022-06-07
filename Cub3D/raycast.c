@@ -9,7 +9,8 @@ void	calc(t_info *info)
 	x = 0;
 	while (x < width)
 	{
-		double cameraX = 2 * x / (double)width - 1;//스크린 왼쪽 -1, 중앙 0, 오른쪽 1
+		double cameraX = (2 * x / (double)width) - 1;//스크린 왼쪽 -1, 중앙 0, 오른쪽 1
+		//스크린을 x크기로 쪼갠 하나의 픽셀크기 = cameraX
 		double rayDirX = info->dirX + info->planeX * cameraX;
 		double rayDirY = info->dirY + info->planeY * cameraX;
 		//rayDir = 광선의 방향벡터
@@ -78,28 +79,30 @@ void	calc(t_info *info)
 				mapY += stepY;
 				side = 1;
 			}
-			//Check if ray has hit a wall
+			//광선이 벽에 닿았는지 판단
 			if (worldMap[mapX][mapY] > 0) hit = 1;
 		}
 		//어안효과 죽이기
-		if (side == 0)
+
+		//여기 30% 이해 여기아래부터 다시 보기
+		if (side == 0)//x축(x면)에 부딪힌경우
 			perpWallDist = (mapX - info->posX + (1 - stepX) / 2) / rayDirX;
 		else
 			perpWallDist = (mapY - info->posY + (1 - stepY) / 2) / rayDirY;
+		//double perpWallDistX = (mapX - info->posX + (1 - stepX) / 2) * info->dirX;
+		//double perpWallDistY = (mapY - info->posY + (1 - stepY) / 2) * info->dirY;
+		//perpWallDist = perpWallDistX + perpWallDistY;
 
 		//Calculate height of line to draw on screen
 		int lineHeight = (int)(height / perpWallDist);
 
 		//calculate lowest and highest pixel to fill in current stripe
 		int drawStart = -lineHeight / 2 + height / 2;
-		if(drawStart < 0)
+		if(drawStart < 0)//예외처리 최소값
 			drawStart = 0;
 		int drawEnd = lineHeight / 2 + height / 2;
-		if(drawEnd >= height)
+		if(drawEnd >= height)//예외처리 최댓값
 			drawEnd = height - 1;
-
-		//texturing calculations
-		int texNum = worldMap[mapX][mapY];
 
 		//calculate value of wallX
 		double wallX;
@@ -109,7 +112,7 @@ void	calc(t_info *info)
 			wallX = info->posX + perpWallDist * rayDirX;
 		wallX -= floor(wallX);
 
-		//x coordinate on the texture
+		//텍스쳐의 x좌표
 		int texX = (int)(wallX * (double)texWidth);
 		if(side == 0 && rayDirX > 0)
 			texX = texWidth - texX - 1;
@@ -127,22 +130,22 @@ void	calc(t_info *info)
 				texPos += step;
 				//int color = info->texture[texNum][texHeight * texY + texX];
 				int color;
-				if (side == 1 && stepY == 1)
+				if (side == 1 && stepY == 1) //북
+					color = info->texture[0][texHeight * texY + texX];
+				else if (side == 1 && stepY == -1)//남
+					color = info->texture[1][texHeight * texY + texX];
+				else if (side == 0 && stepX == 1)//동
+					color = info->texture[2][texHeight * texY + texX];
+				else if (side == 0 && stepX == -1)//서
 					color = info->texture[3][texHeight * texY + texX];
-				else if (side == 1 && stepY == -1)
-					color = info->texture[4][texHeight * texY + texX];
-				else if (side == 0 && stepX == 1)
-					color = info->texture[5][texHeight * texY + texX];
-				else if (side == 0 && stepX == -1)
-					color = info->texture[6][texHeight * texY + texX];
 				else
 					color = (color >> 1)&8315711;
 				info->buf[y][x] = color;
 			}
 			else if(y < drawStart)//천장
-				info->buf[y][x] = 0xb640ff;
+				info->buf[y][x] = 0xe3c8d7;
 			else//바닥
-				info->buf[y][x] = 0x000000;
+				info->buf[y][x] = 0x786f74;
 		}
 		x++;
 	}
