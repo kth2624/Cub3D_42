@@ -78,10 +78,29 @@ int	main(void)
 
 	info.posX = 3.0;
 	info.posY = 3.0;
-	info.dirX = -1.0;
-	info.dirY = 0.0;
-	info.planeX = 0.0;
-	info.planeY = 0.66;
+	////서쪽
+	//info.dirX = -1.0;
+	//info.dirY = 0.0;
+	//info.planeX = 0.0;
+	//info.planeY = 0.66;
+	////동쪽
+	//info.dirX = 1.0;
+	//info.dirY = 0.0;
+	//info.planeX = 0.0;
+	//info.planeY = -0.66;
+	
+	////북쪽
+	//info.dirX = 0.0;
+	//info.dirY = 1.0;
+	//info.planeX = 0.66;
+	//info.planeY = 0.0;
+
+	//남쪽
+	info.dirX = 0.0;
+	info.dirY = -1.0;
+	info.planeX = -0.66;
+	info.planeY = 0.0;
+
 	info.moveSpeed = 0.5;
 	info.rotSpeed = 0.1;
 	info.buf = (int **)malloc(sizeof(int *) * height);
